@@ -1,14 +1,13 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Image, View } from 'react-native';
 
 export default function splashScreen({ navigation }) {
   return (
-    <View>
-      <Text>Food</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
+      <View className="flex-1 justify-center items-center bg-white">
+        <Image
+          source={require('../assets/Logo.png')}
+          className="w-32 h-32"
+        />
+      </View>
   );
 }
