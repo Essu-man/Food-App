@@ -10,6 +10,10 @@ export default function splashScreen({ navigation }) {
           source={require('../assets/Logo.png')}
           style={{ width: width * 0.3, height: width * 0.3, resizeMode: 'contain' }}
         />
+        <Image
+          source={require('../assets/Bg Asset.png')}
+          style={{ width: width * 0.1, height: width * 0.1, resizeMode: 'contain', position: 'absolute', bottom: 10, right: 10 }}
+        />
       </View>
   );
 }
