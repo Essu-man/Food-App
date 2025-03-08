@@ -5,14 +5,13 @@ const { width, height } = Dimensions.get('window');
 
 export default function splashScreen({ navigation }) {
   useEffect(() => {
-    // Set a timer to navigate after 5 seconds (5000 milliseconds)
+
     const timer = setTimeout(() => {
-      navigation.navigate('hero'); // Navigate to the new splash screen
+      navigation.navigate('hero');
     }, 5000);
 
-    // Cleanup the timer when the component unmounts
     return () => clearTimeout(timer);
-  }, [navigation]); // Dependency array ensures this runs once on mount
+  }, [navigation]);
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
