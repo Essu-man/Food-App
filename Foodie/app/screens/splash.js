@@ -1,12 +1,14 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Dimensions, Image, View } from 'react-native';
+
+const { width } = Dimensions.get('window');
 
 export default function splashScreen({ navigation }) {
   return (
-      <View className="flex-1 justify-center items-center bg-white">
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
         <Image
           source={require('../assets/Logo.png')}
-          className="w-32 h-32"
+          style={{ width: width * 0.5, height: width * 0.5, resizeMode: 'contain' }}
         />
       </View>
   );
