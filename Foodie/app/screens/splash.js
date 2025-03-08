@@ -8,7 +8,7 @@ export default function splashScreen({ navigation }) {
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
         <Image
           source={require('../assets/Logo.png')}
-          style={{ width: width * 0.5, height: width * 0.5, resizeMode: 'contain' }}
+          style={{ width: width * 0.3, height: width * 0.3, resizeMode: 'contain' }}
         />
       </View>
   );
