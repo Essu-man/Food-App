@@ -37,95 +37,93 @@ const LoginScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
         <ImageBackground
-          source={{ uri: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c' }} // Updated to a valid Unsplash image
-          style={styles.backgroundImage}
+        source={require('../assets/Ellipse 1005.png')}
+        />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.keyboardAvoidingView}
         >
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.keyboardAvoidingView}
-          >
-            <View style={styles.formContainer}>
-              <View style={styles.header}>
-                <Text style={styles.title}>Log In</Text>
-                <Text style={styles.subtitle}>Please sign in to your existing account</Text>
-              </View>
+          <View style={styles.formContainer}>
+            <View style={styles.header}>
+              <Text style={styles.title}>Log In</Text>
+              <Text style={styles.subtitle}>Please sign in to your existing account</Text>
+            </View>
 
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>EMAIL</Text>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>EMAIL</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="example@gmail.com"
+                placeholderTextColor="#ccc"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>PASSWORD</Text>
+              <View style={styles.passwordContainer}>
                 <TextInput
-                  style={styles.input}
-                  placeholder="example@gmail.com"
+                  style={styles.passwordInput}
+                  placeholder="••••••••••"
                   placeholderTextColor="#ccc"
-                  value={email}
-                  onChangeText={setEmail}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
                 />
-              </View>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>PASSWORD</Text>
-                <View style={styles.passwordContainer}>
-                  <TextInput
-                    style={styles.passwordInput}
-                    placeholder="••••••••••"
-                    placeholderTextColor="#ccc"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={!showPassword}
-                  />
-                  <TouchableOpacity
-                    style={styles.eyeIcon}
-                    onPress={() => setShowPassword(!showPassword)}
-                  >
-                    <Ionicons
-                      name={showPassword ? 'eye-off-overlay' : 'eye-outline'}
-                      size={24}
-                      color="#999"
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View style={styles.rememberForgotContainer}>
                 <TouchableOpacity
-                  style={styles.rememberMeContainer}
-                  onPress={() => setRememberMe(!rememberMe)}
+                  style={styles.eyeIcon}
+                  onPress={() => setShowPassword(!showPassword)}
                 >
-                  <View style={[
-                    styles.checkbox,
-                    rememberMe && styles.checkboxChecked
-                  ]}>
-                    {rememberMe && (
-                      <Ionicons name="checkmark" size={16} color="#fff" />
-                    )}
-                  </View>
-                  <Text style={styles.rememberMeText}>Remember me</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={handleForgotPassword}>
-                  <Text style={styles.forgotPasswordText}>Forgot Password</Text>
+                  <Ionicons
+                    name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                    size={24}
+                    color="#999"
+                  />
                 </TouchableOpacity>
               </View>
+            </View>
 
+            <View style={styles.rememberForgotContainer}>
               <TouchableOpacity
-                style={styles.loginButton}
-                onPress={handleLogin}
+                style={styles.rememberMeContainer}
+                onPress={() => setRememberMe(!rememberMe)}
               >
-                <Text style={styles.loginButtonText}>LOG IN</Text>
+                <View style={[
+                  styles.checkbox,
+                  rememberMe && styles.checkboxChecked
+                ]}>
+                  {rememberMe && (
+                    <Ionicons name="checkmark" size={16} color="#fff" />
+                  )}
+                </View>
+                <Text style={styles.rememberMeText}>Remember me</Text>
               </TouchableOpacity>
 
-              <View style={styles.signUpContainer}>
-                <Text style={styles.signUpText}>Don't have an account? </Text>
-                <TouchableOpacity onPress={handleSignUp}>
-                  <Text style={styles.signUpLink}>SIGN UP</Text>
-                </TouchableOpacity>
-              </View>
-
-              <Text style={styles.orText}>Or</Text>
+              <TouchableOpacity onPress={handleForgotPassword}>
+                <Text style={styles.forgotPasswordText}>Forgot Password</Text>
+              </TouchableOpacity>
             </View>
-          </KeyboardAvoidingView>
-        </ImageBackground>
+
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={handleLogin}
+            >
+              <Text style={styles.loginButtonText}>LOG IN</Text>
+            </TouchableOpacity>
+
+            <View style={styles.signUpContainer}>
+              <Text style={styles.signUpText}>Don't have an account? </Text>
+              <TouchableOpacity onPress={handleSignUp}>
+                <Text style={styles.signUpLink}>SIGN UP</Text>
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.orText}>Or</Text>
+          </View>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -134,21 +132,19 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
-  backgroundImage: {
-    flex: 1,
+  headerImage: {
+    height: 200,
     width: '100%',
-    height: '100%',
   },
   keyboardAvoidingView: {
     flex: 1,
-    justifyContent: 'center',
   },
   formContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white background
-    borderRadius: 24,
+    flex: 1,
     padding: 24,
-    marginHorizontal: 20,
+    backgroundColor: '#fff',
   },
   header: {
     alignItems: 'center',
