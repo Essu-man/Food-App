@@ -1,20 +1,22 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from "expo-router";
 import React, { useState } from 'react';
 import {
-    ImageBackground,
-    Keyboard,
-    KeyboardAvoidingView,
-    Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View
+  ImageBackground,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -22,22 +24,22 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = () => {
     console.log('Login with:', { email, password, rememberMe });
-    navigation.navigate('Home');
+    navigation.navigate('home');
   };
 
   const handleForgotPassword = () => {
-    navigation.navigate('ForgotPassword');
+    navigation.navigate('forgotpassword');
   };
 
   const handleSignUp = () => {
-    navigation.navigate('SignUp');
+    navigation.navigate('signup');
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
         <ImageBackground
-         source={require('../assets/Login.jpg')}
+         source={require('../assets/images/login_undraw.png')}
           style={styles.headerImage}
         />
         <KeyboardAvoidingView
@@ -121,8 +123,6 @@ const LoginScreen = ({ navigation }) => {
                 <Text style={styles.signUpLink}>SIGN UP</Text>
               </TouchableOpacity>
             </View>
-
-            <Text style={styles.orText}>Or</Text>
           </View>
         </KeyboardAvoidingView>
       </SafeAreaView>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   headerImage: {
-    height: 200,
+    height: 300,
     width: '100%',
   },
   keyboardAvoidingView: {

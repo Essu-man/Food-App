@@ -1,7 +1,10 @@
-import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter } from "expo-router";
+import React from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import "react-native-gesture-handler";
 
-export default function SplashScreen({ navigation }) {
+export default function HeroScreen() {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <Image
