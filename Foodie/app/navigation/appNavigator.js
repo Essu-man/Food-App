@@ -1,8 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../screens/carousel/HomeScreen';
 import NextScreen from '../screens/carousel/NextScreen';
 import NextScreen2 from '../screens/carousel/NextScreen2';
 import heroScreen from '../screens/hero';
+import HomeScreen from '../screens/home';
 import loginScreen from '../screens/login';
 import SignupScreen from '../screens/signup';
 import splashScreen from '../screens/splash';

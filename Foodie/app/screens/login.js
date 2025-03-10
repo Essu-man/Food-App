@@ -138,8 +138,8 @@ const LoginScreen = ({ navigation }) => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.socialButton, styles.twitterButton]}
-                onPress={() => handleSocialLogin('Twitter')}
+                style={[styles.socialButton, styles.googleButton]}
+                onPress={() => handleSocialLogin('Gmail')}
               >
                 <Text style={styles.socialButtonText}>t</Text>
               </TouchableOpacity>
