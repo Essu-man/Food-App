@@ -37,7 +37,7 @@ const LoginScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
         <ImageBackground
-         source={require('../assets/Login.png')}
+         source={require('../assets/Login.jpg')}
           style={styles.headerImage}
         />
         <KeyboardAvoidingView
