@@ -19,13 +19,13 @@ export default function splashScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.nextButton}
-        onPress={() => navigation.navigate('NextScreen')}
+        onPress={() => navigation.navigate('next')}
       >
         <Text style={styles.nextButtonText}>NEXT</Text>
       </TouchableOpacity>
 
 
-      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('home')}>
         <Text style={styles.skipText}>Skip</Text>
       </TouchableOpacity>
     </View>
