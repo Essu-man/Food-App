@@ -17,9 +17,9 @@ export default function SplashScreen({ navigation }) {
       </Text>
 
       <View style={styles.dotsContainer}>
+        <View style={styles.dot} />
+        <View style={styles.dot} />
         <View style={[styles.dot, styles.activeDot]} />
-        <View style={styles.dot} />
-        <View style={styles.dot} />
       </View>
 
       <TouchableOpacity

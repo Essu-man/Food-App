@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
+    ImageBackground,
     Keyboard,
     KeyboardAvoidingView,
     Platform,
@@ -13,7 +14,6 @@ import {
     View
 } from 'react-native';
 
-
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,25 +21,20 @@ const LoginScreen = ({ navigation }) => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = () => {
-
     console.log('Login with:', { email, password, rememberMe });
-
-     navigation.navigate('Home');
+    navigation.navigate('Home');
   };
 
   const handleForgotPassword = () => {
-
-    // navigation.navigate('ForgotPassword');
+    navigation.navigate('ForgotPassword');
   };
 
   const handleSignUp = () => {
-
-    // navigation.navigate('SignUp');
+    navigation.navigate('SignUp');
   };
 
   const handleSocialLogin = (platform) => {
     console.log(`Login with ${platform}`);
-
   };
 
   return (
@@ -49,10 +44,15 @@ const LoginScreen = ({ navigation }) => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoidingView}
         >
-          <View style={styles.header}>
-            <Text style={styles.title}>Log In</Text>
-            <Text style={styles.subtitle}>Please sign in to your existing account</Text>
-          </View>
+          <ImageBackground
+            source={{ uri: 'https://unsplash.com/illustrations/face-recognition-of-people-on-city-street-vector-illustration-cartoon-crowd-of-pedestrians-walking-on-road-under-ai-surveillance-control-and-identification-with-artificial-intelligence-system-zT7dHi2ejfc' }}
+            style={styles.header}
+          >
+            <View style={styles.headerOverlay}>
+              <Text style={styles.title}>Log In</Text>
+              <Text style={styles.subtitle}>Please sign in to your existing account</Text>
+            </View>
+          </ImageBackground>
 
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
@@ -129,7 +129,8 @@ const LoginScreen = ({ navigation }) => {
 
             <Text style={styles.orText}>Or</Text>
 
-            <View style={styles.socialContainer}>
+            {/* Commented out social container */}
+            {/* <View style={styles.socialContainer}>
               <TouchableOpacity
                 style={[styles.socialButton, styles.facebookButton]}
                 onPress={() => handleSocialLogin('Facebook')}
@@ -150,7 +151,7 @@ const LoginScreen = ({ navigation }) => {
               >
                 <Ionicons name="logo-apple" size={24} color="#fff" />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </KeyboardAvoidingView>
       </SafeAreaView>
@@ -167,8 +168,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: '#1a1a2e',
+    height: 250, // Extended height
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerOverlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.3)', // Optional overlay for better text visibility
     padding: 24,
+    width: '100%',
     alignItems: 'center',
   },
   title: {
@@ -300,7 +307,7 @@ const styles = StyleSheet.create({
   facebookButton: {
     backgroundColor: '#3b5998',
   },
-  twitterButton: {
+  googleButton: {
     backgroundColor: '#1da1f2',
   },
   appleButton: {
