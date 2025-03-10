@@ -1,28 +1,37 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function splashScreen({ navigation }) {
+export default function SplashScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <View style={styles.imagePlaceholder} />
+      {/* Image from Unsplash */}
+      <Image
+        source={{ uri: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80' }}
+        style={styles.image}
+        resizeMode="cover"
+      />
+
       <Text style={styles.heading}>Free Delivery Offers</Text>
+
       <Text style={styles.description}>
-      Get all your loved foods in one once place,
-      you just place the order we do the rest
+        Get all your loved foods in one place, you just place the order we do the rest
       </Text>
 
       <View style={styles.dotsContainer}>
-        <View style={styles.dot} />
-        <View style={styles.dot} />
         <View style={[styles.dot, styles.activeDot]} />
+        <View style={styles.dot} />
+        <View style={styles.dot} />
       </View>
-
 
       <TouchableOpacity
         style={styles.nextButton}
         onPress={() => navigation.navigate('login')}
       >
         <Text style={styles.nextButtonText}>Get Started</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity>
+        <Text style={styles.skipText}>Skip</Text>
       </TouchableOpacity>
     </View>
   );
@@ -36,10 +45,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-  imagePlaceholder: {
+  image: {
     width: 200,
     height: 300,
-    backgroundColor: '#A3BFFA',
     borderRadius: 20,
     marginBottom: 30,
   },

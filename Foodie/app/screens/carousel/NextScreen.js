@@ -1,22 +1,27 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function splashScreen({ navigation }) {
+export default function SplashScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <View style={styles.imagePlaceholder} />
+      <Image
+        source={{
+          uri: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
+        }}
+        style={styles.chefImage}
+        resizeMode="cover"
+      />
       <Text style={styles.heading}>Order from choosen chef</Text>
       <Text style={styles.description}>
-      Get all your loved foods in one once place,
-      you just place the orer we do the rest
+        Get all your loved foods in one once place,
+        you just place the order we do the rest
       </Text>
 
       <View style={styles.dotsContainer}>
         <View style={styles.dot} />
-        <View style={[styles.dot,styles.activeDot]} />
+        <View style={[styles.dot, styles.activeDot]} />
         <View style={styles.dot} />
       </View>
-
 
       <TouchableOpacity
         style={styles.nextButton}
@@ -24,7 +29,6 @@ export default function splashScreen({ navigation }) {
       >
         <Text style={styles.nextButtonText}>NEXT</Text>
       </TouchableOpacity>
-
 
       <TouchableOpacity onPress={() => navigation.navigate('login')}>
         <Text style={styles.skipText}>Skip</Text>
@@ -41,12 +45,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-  imagePlaceholder: {
-    width: 200,
-    height: 300,
-    backgroundColor: '#A3BFFA',
+  chefImage: {
+    width: 280,
+    height: 320,
     borderRadius: 20,
     marginBottom: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
   },
   heading: {
     fontSize: 24,
