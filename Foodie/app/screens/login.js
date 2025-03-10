@@ -33,127 +33,99 @@ const LoginScreen = ({ navigation }) => {
     navigation.navigate('SignUp');
   };
 
-  const handleSocialLogin = (platform) => {
-    console.log(`Login with ${platform}`);
-  };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.keyboardAvoidingView}
+        <ImageBackground
+          source={{ uri: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c' }} // Updated to a valid Unsplash image
+          style={styles.backgroundImage}
         >
-          <ImageBackground
-            source={{ uri: 'https://unsplash.com/illustrations/face-recognition-of-people-on-city-street-vector-illustration-cartoon-crowd-of-pedestrians-walking-on-road-under-ai-surveillance-control-and-identification-with-artificial-intelligence-system-zT7dHi2ejfc' }}
-            style={styles.header}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.keyboardAvoidingView}
           >
-            <View style={styles.headerOverlay}>
-              <Text style={styles.title}>Log In</Text>
-              <Text style={styles.subtitle}>Please sign in to your existing account</Text>
-            </View>
-          </ImageBackground>
+            <View style={styles.formContainer}>
+              <View style={styles.header}>
+                <Text style={styles.title}>Log In</Text>
+                <Text style={styles.subtitle}>Please sign in to your existing account</Text>
+              </View>
 
-          <View style={styles.formContainer}>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>EMAIL</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="example@gmail.com"
-                placeholderTextColor="#ccc"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>PASSWORD</Text>
-              <View style={styles.passwordContainer}>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>EMAIL</Text>
                 <TextInput
-                  style={styles.passwordInput}
-                  placeholder="••••••••••"
+                  style={styles.input}
+                  placeholder="example@gmail.com"
                   placeholderTextColor="#ccc"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry={!showPassword}
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
                 />
-                <TouchableOpacity
-                  style={styles.eyeIcon}
-                  onPress={() => setShowPassword(!showPassword)}
-                >
-                  <Ionicons
-                    name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-                    size={24}
-                    color="#999"
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>PASSWORD</Text>
+                <View style={styles.passwordContainer}>
+                  <TextInput
+                    style={styles.passwordInput}
+                    placeholder="••••••••••"
+                    placeholderTextColor="#ccc"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={!showPassword}
                   />
+                  <TouchableOpacity
+                    style={styles.eyeIcon}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Ionicons
+                      name={showPassword ? 'eye-off-overlay' : 'eye-outline'}
+                      size={24}
+                      color="#999"
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View style={styles.rememberForgotContainer}>
+                <TouchableOpacity
+                  style={styles.rememberMeContainer}
+                  onPress={() => setRememberMe(!rememberMe)}
+                >
+                  <View style={[
+                    styles.checkbox,
+                    rememberMe && styles.checkboxChecked
+                  ]}>
+                    {rememberMe && (
+                      <Ionicons name="checkmark" size={16} color="#fff" />
+                    )}
+                  </View>
+                  <Text style={styles.rememberMeText}>Remember me</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={handleForgotPassword}>
+                  <Text style={styles.forgotPasswordText}>Forgot Password</Text>
                 </TouchableOpacity>
               </View>
+
+              <TouchableOpacity
+                style={styles.loginButton}
+                onPress={handleLogin}
+              >
+                <Text style={styles.loginButtonText}>LOG IN</Text>
+              </TouchableOpacity>
+
+              <View style={styles.signUpContainer}>
+                <Text style={styles.signUpText}>Don't have an account? </Text>
+                <TouchableOpacity onPress={handleSignUp}>
+                  <Text style={styles.signUpLink}>SIGN UP</Text>
+                </TouchableOpacity>
+              </View>
+
+              <Text style={styles.orText}>Or</Text>
             </View>
-
-            <View style={styles.rememberForgotContainer}>
-              <TouchableOpacity
-                style={styles.rememberMeContainer}
-                onPress={() => setRememberMe(!rememberMe)}
-              >
-                <View style={[
-                  styles.checkbox,
-                  rememberMe && styles.checkboxChecked
-                ]}>
-                  {rememberMe && (
-                    <Ionicons name="checkmark" size={16} color="#fff" />
-                  )}
-                </View>
-                <Text style={styles.rememberMeText}>Remember me</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={handleForgotPassword}>
-                <Text style={styles.forgotPasswordText}>Forgot Password</Text>
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity
-              style={styles.loginButton}
-              onPress={handleLogin}
-            >
-              <Text style={styles.loginButtonText}>LOG IN</Text>
-            </TouchableOpacity>
-
-            <View style={styles.signUpContainer}>
-              <Text style={styles.signUpText}>Don't have an account? </Text>
-              <TouchableOpacity onPress={handleSignUp}>
-                <Text style={styles.signUpLink}>SIGN UP</Text>
-              </TouchableOpacity>
-            </View>
-
-            <Text style={styles.orText}>Or</Text>
-
-            {/* Commented out social container */}
-            {/* <View style={styles.socialContainer}>
-              <TouchableOpacity
-                style={[styles.socialButton, styles.facebookButton]}
-                onPress={() => handleSocialLogin('Facebook')}
-              >
-                <Text style={styles.socialButtonText}>f</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.socialButton, styles.googleButton]}
-                onPress={() => handleSocialLogin('Gmail')}
-              >
-                <Text style={styles.socialButtonText}>t</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.socialButton, styles.appleButton]}
-                onPress={() => handleSocialLogin('Apple')}
-              >
-                <Ionicons name="logo-apple" size={24} color="#fff" />
-              </TouchableOpacity>
-            </View> */}
-          </View>
-        </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </ImageBackground>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -162,39 +134,35 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a2e',
+  },
+  backgroundImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
   },
   keyboardAvoidingView: {
     flex: 1,
+    justifyContent: 'center',
+  },
+  formContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white background
+    borderRadius: 24,
+    padding: 24,
+    marginHorizontal: 20,
   },
   header: {
-    height: 250, // Extended height
-    justifyContent: 'center',
     alignItems: 'center',
-  },
-  headerOverlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.3)', // Optional overlay for better text visibility
-    padding: 24,
-    width: '100%',
-    alignItems: 'center',
+    marginBottom: 24,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#333',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#fff',
-    opacity: 0.8,
-  },
-  formContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    padding: 24,
+    color: '#666',
   },
   inputContainer: {
     marginBottom: 24,
@@ -290,33 +258,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#666',
     marginBottom: 16,
-  },
-  socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 8,
-  },
-  socialButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 8,
-  },
-  facebookButton: {
-    backgroundColor: '#3b5998',
-  },
-  googleButton: {
-    backgroundColor: '#1da1f2',
-  },
-  appleButton: {
-    backgroundColor: '#1a1a2e',
-  },
-  socialButtonText: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
   },
 });
 
