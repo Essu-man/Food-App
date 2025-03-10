@@ -5,29 +5,24 @@ export default function splashScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.imagePlaceholder} />
-      <Text style={styles.heading}>Order from choosen chef</Text>
+      <Text style={styles.heading}>Free Delivery Offers</Text>
       <Text style={styles.description}>
       Get all your loved foods in one once place,
       you just place the orer we do the rest
       </Text>
 
       <View style={styles.dotsContainer}>
+        <View style={[styles.dot, styles.activeDot]} />
         <View style={styles.dot} />
-        <View style={[styles.dot,styles.activeDot]} />
         <View style={styles.dot} />
       </View>
 
 
       <TouchableOpacity
         style={styles.nextButton}
-        onPress={() => navigation.navigate('next2')}
+        onPress={() => navigation.navigate('Login')}
       >
-        <Text style={styles.nextButtonText}>NEXT</Text>
-      </TouchableOpacity>
-
-
-      <TouchableOpacity onPress={() => navigation.navigate('login')}>
-        <Text style={styles.skipText}>Skip</Text>
+        <Text style={styles.nextButtonText}>Get Started</Text>
       </TouchableOpacity>
     </View>
   );
