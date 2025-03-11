@@ -28,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleForgotPassword = () => {
-    navigation.navigate('forgotpassword');
+    navigation.navigate('auth/forgotpassword');
   };
 
   const handleSignUp = () => {
@@ -39,7 +39,7 @@ const LoginScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
         <ImageBackground
-         source={require('../assets/images/login_undraw.png')}
+         source={require('../assets/login_undraw.png')}
           style={styles.headerImage}
         />
         <KeyboardAvoidingView

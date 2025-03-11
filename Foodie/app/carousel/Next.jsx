@@ -1,7 +1,9 @@
+import { useRouter } from "expo-router";
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function SplashScreen({ navigation }) {
+export default function nextScreen() {
+    const router = useRouter();
   return (
     <View style={styles.container}>
       <Image
@@ -25,12 +27,12 @@ export default function SplashScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.nextButton}
-        onPress={() => navigation.navigate('next2')}
+        onPress={() => router.push('carousel/Next2')}
       >
         <Text style={styles.nextButtonText}>NEXT</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('login')}>
+      <TouchableOpacity onPress={() => router.push('auth/login')}>
         <Text style={styles.skipText}>Skip</Text>
       </TouchableOpacity>
     </View>

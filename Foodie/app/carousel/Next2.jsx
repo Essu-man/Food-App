@@ -1,7 +1,9 @@
+import { useRouter } from "expo-router";
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function SplashScreen({ navigation }) {
+export default function SplashScreen() {
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <Image
@@ -24,7 +26,7 @@ export default function SplashScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.nextButton}
-        onPress={() => navigation.navigate('login')}
+        onPress={() => router.push('auth/login')}
       >
         <Text style={styles.nextButtonText}>Get Started</Text>
       </TouchableOpacity>

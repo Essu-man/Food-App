@@ -27,12 +27,12 @@ export default function HeroScreen() {
 
       <TouchableOpacity
         style={styles.nextButton}
-        onPress={() => navigation.navigate('next')}
+        onPress={() => router.push('carousel/next')}
       >
         <Text style={styles.nextButtonText}>NEXT</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('login')}>
+      <TouchableOpacity onPress={() => router.push('auth/login')}>
         <Text style={styles.skipText}>Skip</Text>
       </TouchableOpacity>
     </View>
