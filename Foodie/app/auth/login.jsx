@@ -1,7 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
+import { useSignIn } from "@clerk/clerk-expo";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
+  Alert,
   ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
@@ -12,44 +14,79 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
-} from 'react-native';
+  View,
+} from "react-native";
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { isLoaded, signIn, setActive } = useSignIn();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    console.log('Login with:', { email, password, rememberMe });
-    router.push('home');
+  const handleLogin = async () => {
+    if (!isLoaded) return;
+
+    if (!email.trim()) {
+      Alert.alert("Error", "Email is required");
+      return;
+    }
+    if (!password) {
+      Alert.alert("Error", "Password is required");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const signInAttempt = await signIn.create({
+        identifier: email,
+        password,
+      });
+
+      if (signInAttempt.status === "complete") {
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.replace("/home"); // Redirect to home after successful login
+      } else {
+        Alert.alert("Error", "Login failed. Please try again.");
+      }
+    } catch (err) {
+      Alert.alert(
+        "Error",
+        err.errors?.[0]?.message || "Invalid email or password."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleForgotPassword = () => {
-    router.push('auth/forgotpassword');
+  const handleSignup = () => {
+    router.push("auth/signup");
   };
 
-  const handleSignUp = () => {
-    router.push('auth/signup');
-  };
+  if (!isLoaded) {
+    return (
+      <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
         <ImageBackground
-         source={require('../assets/login_undraw.png')}
+          source={require("../assets/login_undraw.png")}
           style={styles.headerImage}
         />
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.keyboardAvoidingView}
         >
           <View style={styles.formContainer}>
             <View style={styles.header}>
               <Text style={styles.title}>Log In</Text>
-              <Text style={styles.subtitle}>Please sign in to your existing account</Text>
+              <Text style={styles.subtitle}>Welcome back!</Text>
             </View>
 
             <View style={styles.inputContainer}>
@@ -62,6 +99,7 @@ const LoginScreen = ({ navigation }) => {
                 onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
+                editable={!loading}
               />
             </View>
 
@@ -75,13 +113,15 @@ const LoginScreen = ({ navigation }) => {
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry={!showPassword}
+                  editable={!loading}
                 />
                 <TouchableOpacity
                   style={styles.eyeIcon}
                   onPress={() => setShowPassword(!showPassword)}
+                  disabled={loading}
                 >
                   <Ionicons
-                    name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                    name={showPassword ? "eye-off-outline" : "eye-outline"}
                     size={24}
                     color="#999"
                   />
@@ -89,38 +129,20 @@ const LoginScreen = ({ navigation }) => {
               </View>
             </View>
 
-            <View style={styles.rememberForgotContainer}>
-              <TouchableOpacity
-                style={styles.rememberMeContainer}
-                onPress={() => setRememberMe(!rememberMe)}
-              >
-                <View style={[
-                  styles.checkbox,
-                  rememberMe && styles.checkboxChecked
-                ]}>
-                  {rememberMe && (
-                    <Ionicons name="checkmark" size={16} color="#fff" />
-                  )}
-                </View>
-                <Text style={styles.rememberMeText}>Remember me</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={handleForgotPassword}>
-                <Text style={styles.forgotPasswordText}>Forgot Password</Text>
-              </TouchableOpacity>
-            </View>
-
             <TouchableOpacity
-              style={styles.loginButton}
+              style={[styles.loginButton, loading && styles.disabledButton]}
               onPress={handleLogin}
+              disabled={loading}
             >
-              <Text style={styles.loginButtonText}>LOG IN</Text>
+              <Text style={styles.loginButtonText}>
+                {loading ? "LOGGING IN..." : "LOG IN"}
+              </Text>
             </TouchableOpacity>
 
-            <View style={styles.signUpContainer}>
-              <Text style={styles.signUpText}>Don't have an account? </Text>
-              <TouchableOpacity onPress={handleSignUp}>
-                <Text style={styles.signUpLink}>SIGN UP</Text>
+            <View style={styles.signupContainer}>
+              <Text style={styles.signupText}>Don't have an account? </Text>
+              <TouchableOpacity onPress={handleSignup} disabled={loading}>
+                <Text style={styles.signupLink}>SIGN UP</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -133,11 +155,11 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   headerImage: {
-    height: 250,
-    width: '100%',
+    height: 200,
+    width: "100%",
   },
   keyboardAvoidingView: {
     flex: 1,
@@ -145,116 +167,81 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     padding: 24,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 24,
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: "#666",
   },
   inputContainer: {
-    marginBottom: 24,
+    marginBottom: 16,
   },
   label: {
     fontSize: 12,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#f5f7fa',
+    backgroundColor: "#f5f7fa",
     borderRadius: 8,
     padding: 15,
     fontSize: 16,
-    color: '#333',
+    color: "#333",
   },
   passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f5f7fa',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f7fa",
     borderRadius: 8,
   },
   passwordInput: {
     flex: 1,
     padding: 15,
     fontSize: 16,
-    color: '#333',
+    color: "#333",
   },
   eyeIcon: {
     padding: 10,
   },
-  rememberForgotContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  rememberMeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginRight: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checkboxChecked: {
-    backgroundColor: '#6c63ff',
-    borderColor: '#6c63ff',
-  },
-  rememberMeText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  forgotPasswordText: {
-    fontSize: 14,
-    color: '#6c63ff',
-    fontWeight: '500',
-  },
   loginButton: {
-    backgroundColor: '#6c63ff',
+    backgroundColor: "#6c63ff",
     borderRadius: 8,
     padding: 16,
-    alignItems: 'center',
-    marginBottom: 24,
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  disabledButton: {
+    backgroundColor: "#a8a5d6",
   },
   loginButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-  signUpContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+  signupContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
     marginBottom: 16,
   },
-  signUpText: {
+  signupText: {
     fontSize: 14,
-    color: '#666',
+    color: "#666",
   },
-  signUpLink: {
+  signupLink: {
     fontSize: 14,
-    color: '#6c63ff',
-    fontWeight: 'bold',
-  },
-  orText: {
-    textAlign: 'center',
-    color: '#666',
-    marginBottom: 16,
+    color: "#6c63ff",
+    fontWeight: "bold",
   },
 });
 

@@ -1,7 +1,9 @@
+import { useSignUp } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
 import React, { useState } from 'react';
 import {
+  Alert,
   ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
@@ -17,6 +19,8 @@ import {
 
 const SignupScreen = () => {
   const router = useRouter();
+  const { isLoaded, signUp, setActive } = useSignUp();
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,27 +28,83 @@ const SignupScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = () => {
-    console.log('Sign up with:', { username, email, password, termsAccepted });
-    router.push('home');
+  const validateInputs = () => {
+    if (!username.trim()) {
+      Alert.alert("Error", "Username is required");
+      return false;
+    }
+    if (!email.trim()) {
+      Alert.alert("Error", "Email is required");
+      return false;
+    }
+    if (!password) {
+      Alert.alert("Error", "Password is required");
+      return false;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return false;
+    }
+    if (!termsAccepted) {
+      Alert.alert("Error", "You must accept the Terms of Service and Privacy Policy");
+      return false;
+    }
+    return true;
   };
 
-  const handleGoogleSignup = () => {
-    console.log('Sign up with Google');
-    // Implement Google authentication logic here
-    router.push('home');
+  const handleSignup = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    if (!validateInputs()) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // Start the sign-up process
+      await signUp.create({
+        username,
+        emailAddress: email,
+        password,
+      });
+
+      // Send the email verification code
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+
+      // Navigate to verification screen
+      router.push({
+        pathname: 'auth/verify',
+        params: { email }
+      });
+    } catch (err) {
+      Alert.alert("Error", err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleLogin = () => {
     router.push('auth/login');
   };
 
+  if (!isLoaded) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
         <ImageBackground
-          source={require('../assets/signup.png')}
+          source={require('../assets/login_undraw.png')}
           style={styles.headerImage}
         />
         <KeyboardAvoidingView
@@ -66,6 +126,7 @@ const SignupScreen = () => {
                 value={username}
                 onChangeText={setUsername}
                 autoCapitalize="none"
+                editable={!loading}
               />
             </View>
 
@@ -79,6 +140,7 @@ const SignupScreen = () => {
                 onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
+                editable={!loading}
               />
             </View>
 
@@ -92,10 +154,12 @@ const SignupScreen = () => {
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry={!showPassword}
+                  editable={!loading}
                 />
                 <TouchableOpacity
                   style={styles.eyeIcon}
                   onPress={() => setShowPassword(!showPassword)}
+                  disabled={loading}
                 >
                   <Ionicons
                     name={showPassword ? 'eye-off-outline' : 'eye-outline'}
@@ -116,10 +180,12 @@ const SignupScreen = () => {
                   value={confirmPassword}
                   onChangeText={setConfirmPassword}
                   secureTextEntry={!showConfirmPassword}
+                  editable={!loading}
                 />
                 <TouchableOpacity
                   style={styles.eyeIcon}
                   onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                  disabled={loading}
                 >
                   <Ionicons
                     name={showConfirmPassword ? 'eye-off-outline' : 'eye-outline'}
@@ -134,6 +200,7 @@ const SignupScreen = () => {
               <TouchableOpacity
                 style={styles.checkboxContainer}
                 onPress={() => setTermsAccepted(!termsAccepted)}
+                disabled={loading}
               >
                 <View style={[
                   styles.checkbox,
@@ -150,25 +217,16 @@ const SignupScreen = () => {
             </View>
 
             <TouchableOpacity
-              style={styles.signupButton}
+              style={[styles.signupButton, loading && styles.disabledButton]}
               onPress={handleSignup}
+              disabled={loading}
             >
-              <Text style={styles.signupButtonText}>SIGN UP</Text>
-            </TouchableOpacity>
-
-            <Text style={styles.orText}>OR</Text>
-
-            <TouchableOpacity
-              style={styles.googleButton}
-              onPress={handleGoogleSignup}
-            >
-              <Ionicons name="logo-google" size={20} color="#fff" style={styles.googleIcon} />
-              <Text style={styles.googleButtonText}>SIGN UP WITH GOOGLE</Text>
+              <Text style={styles.signupButtonText}>{loading ? "SIGNING UP..." : "SIGN UP"}</Text>
             </TouchableOpacity>
 
             <View style={styles.loginContainer}>
               <Text style={styles.loginText}>Already have an account? </Text>
-              <TouchableOpacity onPress={handleLogin}>
+              <TouchableOpacity onPress={handleLogin} disabled={loading}>
                 <Text style={styles.loginLink}>LOG IN</Text>
               </TouchableOpacity>
             </View>
@@ -279,30 +337,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
   },
+  disabledButton: {
+    backgroundColor: '#a8a5d6',
+  },
   signupButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  orText: {
-    textAlign: 'center',
-    color: '#666',
-    marginBottom: 16,
-    fontWeight: '500',
-  },
-  googleButton: {
-    backgroundColor: '#EA4335',
-    borderRadius: 8,
-    padding: 16,
-    alignItems: 'center',
-    marginBottom: 24,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  googleIcon: {
-    marginRight: 8,
-  },
-  googleButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
