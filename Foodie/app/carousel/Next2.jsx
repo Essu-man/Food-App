@@ -75,10 +75,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   activeDot: {
-    backgroundColor: '#F56565',
+    backgroundColor: '#6c63ff',
   },
   nextButton: {
-    backgroundColor: '#F6AD55',
+    backgroundColor: '#6c63ff',
     paddingVertical: 15,
     paddingHorizontal: 100,
     borderRadius: 10,

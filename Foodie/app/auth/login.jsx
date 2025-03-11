@@ -24,15 +24,15 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = () => {
     console.log('Login with:', { email, password, rememberMe });
-    navigation.navigate('home');
+    router.push('home');
   };
 
   const handleForgotPassword = () => {
-    navigation.navigate('auth/forgotpassword');
+    router.push('auth/forgotpassword');
   };
 
   const handleSignUp = () => {
-    navigation.navigate('signup');
+    router.push('auth/signup');
   };
 
   return (
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   headerImage: {
-    height: 300,
+    height: 250,
     width: '100%',
   },
   keyboardAvoidingView: {
@@ -213,8 +213,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   checkboxChecked: {
-    backgroundColor: '#ff7700',
-    borderColor: '#ff7700',
+    backgroundColor: '#6c63ff',
+    borderColor: '#6c63ff',
   },
   rememberMeText: {
     fontSize: 14,
@@ -222,11 +222,11 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     fontSize: 14,
-    color: '#ff7700',
+    color: '#6c63ff',
     fontWeight: '500',
   },
   loginButton: {
-    backgroundColor: '#ff7700',
+    backgroundColor: '#6c63ff',
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
   },
   signUpLink: {
     fontSize: 14,
-    color: '#ff7700',
+    color: '#6c63ff',
     fontWeight: 'bold',
   },
   orText: {
