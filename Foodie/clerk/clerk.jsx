@@ -1,9 +1,12 @@
-import * as Clerk from "@clerk/clerk-expo";
 
-const clerk = Clerk.initialize({
-  publishableKey: "pk_test_YnVyc3RpbmctbWFybW90LTQ3LmNsZXJrLmFjY291bnRzLmRldiQ",
-  clerkJSUrl: "bursting-marmot-47.clerk.accounts.dev",
-  clerkJSVersion: "latest",
-});
+import { ClerkProvider } from "@clerk/clerk-expo";
 
-export default clerk;
+const publishableKey = "pk_test_YnVyc3RpbmctbWFybW90LTQ3LmNsZXJrLmFjY291bnRzLmRldiQ";
+
+export default function ClerkConfig({ children }) {
+  return (
+    <ClerkProvider publishableKey={publishableKey}>
+      {children}
+    </ClerkProvider>
+  );
+}

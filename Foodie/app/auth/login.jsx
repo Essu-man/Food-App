@@ -46,7 +46,7 @@ const LoginScreen = () => {
 
       if (signInAttempt.status === "complete") {
         await setActive({ session: signInAttempt.createdSessionId });
-        router.replace("/home"); // Redirect to home after successful login
+        router.replace("/home");
       } else {
         Alert.alert("Error", "Login failed. Please try again.");
       }
