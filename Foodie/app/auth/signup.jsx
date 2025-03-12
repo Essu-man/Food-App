@@ -30,6 +30,8 @@ const SignupScreen = () => {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+
+
   const validateInputs = () => {
     if (!username.trim()) {
       Alert.alert("Error", "Username is required");
