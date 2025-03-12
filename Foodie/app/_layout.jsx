@@ -1,6 +1,6 @@
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import { Redirect, Stack, useRouter } from "expo-router";
-import clerk from "../app/clerk/clerk";
+import clerk from "../clerk/clerk";
 
 const AuthRedirect = () => {
   const { isSignedIn, isLoaded } = useAuth();
@@ -22,7 +22,6 @@ const AuthRedirect = () => {
 };
 
 export default function RootLayout() {
-}
   return (
     <ClerkProvider clerk={clerk}>
       <AuthRedirect />
@@ -30,6 +29,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="hero" options={{ headerShown: false }} />
         <Stack.Screen name="carousel/next" options={{ headerShown: false }} />
+        <Stack.Screen name="carousel/Next2" options={{ headerShown: false }} />
         <Stack.Screen name="auth/login" options={{ headerShown: true, title: "Log In" }} />
         <Stack.Screen name="auth/signup" options={{ headerShown: true, title: "Sign Up" }} />
         <Stack.Screen name="auth/verify" options={{ headerShown: true, title: "Verify Email" }} />
@@ -37,3 +37,4 @@ export default function RootLayout() {
       </Stack>
     </ClerkProvider>
   );
+}
