@@ -134,13 +134,13 @@ const Home = () => {
         <div style={styles.deliveryTo}>
           <span>DELIVER TO</span>
           <select style={styles.deliveryTo.select}>
-            <option>Halal Lab office</option>
+            <option>DV office</option>
           </select>
         </div>
         <div style={styles.notification}>
           <span>2</span>
         </div>
-        <h2 style={styles.greeting}>Hey Halal, Good Afternoon!</h2>
+        <h2 style={styles.greeting}>Hey Cece, Good Afternoon!</h2>
       </div>
 
       {/* Search Bar */}
